@@ -121,6 +121,10 @@ def draw_match_rectangle(image_1, face_location_1, image_2, face_location_2):
 # Crea una cartella "reports" se non esiste già
 if not os.path.exists("reports"):
     os.makedirs("reports")
+    
+if not os.path.exists("targets"):
+    os.makedirs("targets")
+    
 
 # Crea una cartella "temp" per le immagini modificate temporanee
 if not os.path.exists("temp"):
