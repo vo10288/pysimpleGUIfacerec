@@ -7,10 +7,37 @@ from datetime import datetime
 from io import BytesIO
 import hashlib
 import subprocess
-import pyautogui
+#import pyautogui
 #import requests
 #import opentimestamps.client as otsclient
+#from fpdf import FPDF
 
+#class PDF(FPDF):
+#    def header(self):
+#        self.set_font('Arial', 'B', 12)
+#        self.cell(0, 10, 'Esempio di stampa dell\'intera finestra', 0, 1, 'C')
+
+#    def footer(self):
+#        self.set_y(-15)
+#        self.set_font('Arial', 'I', 8)
+#        self.cell(0, 10, 'Pagina %s' % self.page_no(), 0, 0, 'C')
+
+#def create_pdf(layout, filename):
+#    pdf = PDF()
+#    pdf.add_page()
+
+    # Aggiungi il layout dell'interfaccia grafica al PDF
+#    for row in layout:
+#        for element in row:
+#            if isinstance(element, sg.Text):
+#                pdf.cell(0, 10, element.get())
+#            elif isinstance(element, sg.Button):
+#                pdf.cell(0, 10, element.get_text())
+
+    # Salva il PDF
+#    pdf.output(filename)
+    
+    
 # Funzione per calcolare l'hash del file
 def calculate_hash(file_path):
     with open(file_path, 'rb') as file:
@@ -328,11 +355,17 @@ while True:
 		print(f'il report stampato sulla BLOCKCHAIN BITCOIN: \n {report_file_ots}')
 		
 	elif event == 'Stampa finestra':
+		
 		timestamp = datetime.now().strftime('%Y-%m-%d_%H-%M-%S')
 		try:
-			screenshot = pyautogui.screenshot()
-			screenshot.save(f'reports/screenshot_{timestamp}.png')
-			sg.popup('Stampa completata con successo!', title='Successo')
+			#create_pdf(layout, f'reports/screenshot_{timestamp}.pdf')
+			command = (f'screnncapture -w  reports/{timestamp}.png')
+			subprocess.Popen(command, shell=True)
+			#print_window_to_pdf(window, f'reports/screenshot_{timestamp}.pdf')
+			
+#			screenshot = pyautogui.screenshot()
+#			screenshot.save(f'reports/screenshot_{timestamp}.png')
+			sg.popup('Stampa PDF completata con successo!', title='Successo')
 		except Exception as e:
 			sg.popup('Si è verificato un errore durante la stampa.', title='Errore')
 	

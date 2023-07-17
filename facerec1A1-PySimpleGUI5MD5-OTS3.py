@@ -7,9 +7,29 @@ from datetime import datetime
 from io import BytesIO
 import hashlib
 import subprocess
-import pyautogui
+#import pyautogui
 #import requests
 #import opentimestamps.client as otsclient
+from reportlab.pdfgen import canvas
+
+def print_window_to_pdf(window, filename):
+    # Crea un oggetto Canvas per il PDF
+    c = canvas.Canvas(filename)
+
+    # Ottieni le dimensioni della finestra
+    window_size = window.Size
+
+    # Salva la finestra come immagine temporanea
+    temp_image = "temp.png"
+    window.SaveToPNG(temp_image)
+
+    # Aggiungi l'immagine temporanea al PDF
+    c.drawImage(temp_image, 0, 0, *window_size)
+
+    # Elimina l'immagine temporanea
+    c.save()
+    sg.popup('Stampa in PDF completata con successo!', title='Successo')
+
 
 # Funzione per calcolare l'hash del file
 def calculate_hash(file_path):
@@ -330,8 +350,10 @@ while True:
 	elif event == 'Stampa finestra':
 		timestamp = datetime.now().strftime('%Y-%m-%d_%H-%M-%S')
 		try:
-			screenshot = pyautogui.screenshot()
-			screenshot.save(f'reports/screenshot_{timestamp}.png')
+			print_window_to_pdf(window, f'reports/screenshot_{timestamp}.pdf')
+			
+#			screenshot = pyautogui.screenshot()
+#			screenshot.save(f'reports/screenshot_{timestamp}.png')
 			sg.popup('Stampa completata con successo!', title='Successo')
 		except Exception as e:
 			sg.popup('Si è verificato un errore durante la stampa.', title='Errore')
